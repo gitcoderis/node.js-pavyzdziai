@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Todo list</title>
+    <link rel="stylesheet" href="/assets/style.css">
+    <script type="text/javascript">
+      function sendData(){
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function(){
+          if(this.readyState == 4 && this.status == 200){
+            window.location.href = '/todo';
+          }
+        };
+        xhttp.open('POST',  '/todo', true);
+        // xhttp.setRequest
+        let todo = document.getElementById('todo-input').value;
+        xhttp.setRequestHeader('Content-type',  'application/x-www-form-urlencoded');
+        xhttp.send('todo='+todo);
+      }
+      function deleteData(id){
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function(){
+          if(this.readyState == 4 && this.status == 200){
+            window.location.href = '/todo';
+          }
+        };
+        xhttp.open('DELETE',  '/todo/'+id, true);
+        xhttp.send();
+      }
+    </script>
+  </head>
+  <body>
+    <div id="todo-table">
+        <input type="text" id="todo-input" name="todo" placeholder="Add new todo..." value="">
+        <button onclick="sendData()">Save todo</button>
+    </div>
+    <div id="todo-list">
+      <ul>
+        <% for(var i=0; i < todos.length; i++){ %>
+        <li onclick="deleteData(<%= i %>)"><%= todos[i].todo %></li>
+        <% } %>
+      </ul>
+    </div>
+  </body>
+</html>
